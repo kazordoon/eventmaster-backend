@@ -6,20 +6,24 @@ COPY composer.json composer.lock ./
 RUN composer install --no-dev --optimize-autoloader --no-scripts
 
 # Stage 2: Application
-FROM php:8.3-fpm-alpine
+FROM php:8.4-fpm-alpine
 
-# Install system dependencies
 RUN apk add --no-cache \
     bash \
     libzip-dev \
     oniguruma-dev \
     sqlite-dev \
-    mysql-client \
+    postgresql-dev \
     zip \
     unzip \
     curl
 
-RUN docker-php-ext-install pdo pdo_mysql pdo_sqlite zip
+RUN docker-php-ext-install \
+    pdo \
+    pdo_pgsql \
+    pgsql \
+    pdo_sqlite \
+    zip
 
 WORKDIR /var/www
 
