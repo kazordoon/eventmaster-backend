@@ -10,6 +10,55 @@ use Illuminate\Support\Facades\Validator;
 class EventController extends Controller
 {
     /**
+     * List all events.
+     */
+    public function index(Request $request): JsonResponse
+    {
+        $events = Event::with(['category', 'local'])
+            ->orderBy('date')
+            ->orderBy('time')
+            ->paginate($request->integer('per_page', 15));
+
+        $events->getCollection()->transform(function (Event $event) {
+            return [
+                'id' => $event->id,
+                'id_category' => $event->id_category,
+                'id_local' => $event->id_local,
+                'name' => $event->name,
+                'description' => $event->description,
+                'date' => $event->date->format('Y-m-d'),
+                'time' => $event->time,
+                'max_tickets_per_cpf' => $event->max_tickets_per_cpf,
+                'category' => $event->category,
+                'local' => $event->local,
+            ];
+        });
+
+        return response()->json($events);
+    }
+
+    /**
+     * Show a single event.
+     */
+    public function show(string $id): JsonResponse
+    {
+        $event = Event::with(['category', 'local'])->findOrFail($id);
+
+        return response()->json([
+            'id' => $event->id,
+            'id_category' => $event->id_category,
+            'id_local' => $event->id_local,
+            'name' => $event->name,
+            'description' => $event->description,
+            'date' => $event->date->format('Y-m-d'),
+            'time' => $event->time,
+            'max_tickets_per_cpf' => $event->max_tickets_per_cpf,
+            'category' => $event->category,
+            'local' => $event->local,
+        ]);
+    }
+
+    /**
      * Store a newly created event.
      */
     public function store(Request $request): JsonResponse

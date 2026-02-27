@@ -10,10 +10,13 @@ use Illuminate\Support\Facades\Route;
 Route::post('/signup', [AuthController::class, 'signup']);
 Route::post('/login', [AuthController::class, 'login']);
 
+Route::get('/events/{id}', [EventController::class, 'show']);
+
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/user', function (Request $request) {
         return $request->user();
     });
+    Route::get('/events', [EventController::class, 'index']);
     Route::post('/events', [EventController::class, 'store']);
     Route::post('/locals', [LocalController::class, 'store']);
     Route::post('/event-categories', [EventCategoryController::class, 'store']);
