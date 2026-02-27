@@ -83,4 +83,16 @@ class AuthController extends Controller
             'token_type' => 'Bearer',
         ]);
     }
+
+    /**
+     * Revoke the current access token (sign off).
+     */
+    public function logout(Request $request): JsonResponse
+    {
+        $request->user()->currentAccessToken()->delete();
+
+        return response()->json([
+            'message' => 'Successfully signed off.',
+        ]);
+    }
 }
