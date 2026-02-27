@@ -22,8 +22,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/user', function (Request $request) {
         return $request->user();
     });
-    Route::get('/events', [EventController::class, 'index']);
-    Route::post('/events', [EventController::class, 'store']);
-    Route::post('/locals', [LocalController::class, 'store']);
-    Route::post('/event-categories', [EventCategoryController::class, 'store']);
+    Route::post('/logout', [AuthController::class, 'logout']);
+
+    Route::apiResource('/events', EventController::class)->only(['store']);
+    Route::apiResource('/locals', LocalController::class);
+    Route::apiResource('/event-categories', EventCategoryController::class);
 });
