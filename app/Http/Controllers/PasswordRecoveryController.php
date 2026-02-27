@@ -29,7 +29,7 @@ class PasswordRecoveryController extends Controller
 
         if ($status !== Password::RESET_LINK_SENT) {
             return response()->json([
-                'message' => 'We were unable to send the password recovery link via email. Please try again later.',
+                'message' => __($status),
             ], 400);
         }
 

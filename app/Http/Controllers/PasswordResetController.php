@@ -38,7 +38,7 @@ class PasswordResetController extends Controller
 
         if ($status !== Password::PASSWORD_RESET) {
             return response()->json([
-                'message' => 'We were unable to reset your password. Please try again later.',
+                'message' => __($status),
             ], 400);
         }
 
