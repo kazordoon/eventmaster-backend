@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('batches', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('id_event')->constrained('events')->onDelete('cascade');
             $table->decimal('price', 10, 2);
             $table->date('initial_date');
             $table->date('end_date');
